@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131f">
+  <meta name="description" content="CineWave helps you discover films and find authorised places to watch them.">
+  <title>CineWave — Your Movie. Your World.</title>
+  <style>
+    :root{--bg:#0b0e17;--panel:#141a2a;--panel2:#1a2235;--text:#f5f7ff;--muted:#aab4ce;--accent:#8c7bff;--accent2:#52d6d0;--border:#2a344d}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:radial-gradient(ellipse at 80% -10%,#26214f 0,transparent 42%),var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a{color:inherit}
+    .wrap{width:min(1120px,calc(100% - 32px));margin:auto}
+    header{position:sticky;top:0;z-index:10;background:#0b0e17eF;border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+    .nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;letter-spacing:.09em}
+    .logo{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0b0e17;font-size:18px}
+    nav{display:flex;align-items:center;gap:20px}
+    nav a,.quiet{color:var(--muted);text-decoration:none;font-size:.94rem}
+    nav a:hover,.quiet:hover{color:var(--text)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:12px;border:1px solid transparent;background:var(--accent);color:#100d26;font-weight:800;text-decoration:none;cursor:pointer}
+    .btn.secondary{background:transparent;color:var(--text);border-color:var(--border)}
+    .hero{padding:64px 0 42px;display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center}
+    .eyebrow{color:var(--accent2);font-weight:800;letter-spacing:.13em;text-transform:uppercase;font-size:.76rem}
+    h1{font-size:clamp(2.35rem,6vw,4.6rem);line-height:1.02;letter-spacing:-.055em;margin:12px 0 18px}
+    h2{font-size:clamp(1.55rem,3vw,2.15rem);letter-spacing:-.035em;margin:0 0 8px}
+    p{margin:0 0 16px;color:var(--muted)}
+    .hero p{font-size:1.08rem;max-width:560px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+    .hero-art{min-height:330px;position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:center}
+    .poster{border:1px solid #ffffff20;border-radius:20px;min-height:205px;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;position:relative;box-shadow:0 18px 48px #0004}
+    .poster:before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,transparent 10%,#080b15e8 100%)}
+    .poster>*{position:relative}
+    .poster strong{font-size:1.15rem}
+    .poster span{font-size:.8rem;color:#d4dcf2}
+    .p1{background:radial-gradient(circle at 65% 25%,#ffc96a 0 7%,transparent 8%),linear-gradient(140deg,#342d6d,#b54e70 55%,#10131f)}
+    .p2{transform:translateY(22px);background:radial-gradient(circle at 50% 30%,#e6f7ff 0 8%,transparent 9%),linear-gradient(145deg,#174f76,#38a7a0 50%,#11192b)}
+    .p3{background:radial-gradient(circle at 40% 30%,#ffdc9b 0 9%,transparent 10%),linear-gradient(140deg,#683a7e,#d86b63 55%,#111321)}
+    .p4{transform:translateY(22px);background:radial-gradient(circle at 60% 28%,#f8f4b1 0 7%,transparent 8%),linear-gradient(145deg,#25365e,#8c7bff 58%,#10131f)}
+    section{padding:36px 0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:20px}
+    .searchbar{display:flex;gap:8px;max-width:400px;width:100%}
+    input,select{min-width:0;width:100%;padding:12px 13px;border-radius:12px;border:1px solid var(--border);background:var(--panel);color:var(--text);font:inherit}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 22px}
+    .chip{border:1px solid var(--border);background:var(--panel);border-radius:999px;padding:7px 12px;color:var(--muted);cursor:pointer}
+    .chip[aria-pressed="true"]{background:#2a2554;color:#fff;border-color:#7668e7}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+    .cover{min-height:145px;padding:16px;display:flex;align-items:end;background:linear-gradient(145deg,#344a8c,#8c7bff 55%,#181b32);position:relative}
+    .cover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#111522aa,transparent)}
+    .cover span{position:relative;z-index:1;font-weight:900;font-size:1.05rem}
+    .cover.c2{background:linear-gradient(145deg,#185f70,#52d6d0,#142237)}
+    .cover.c3{background:linear-gradient(145deg,#703f72,#d27a73,#1b2039)}
+    .cover.c4{background:linear-gradient(145deg,#223e58,#d3a25e,#20203e)}
+    .cover.c5{background:linear-gradient(145deg,#4c2f77,#db5b82,#20203e)}
+    .cover.c6{background:linear-gradient(145deg,#1f644d,#b6c96d,#172438)}
+    .cardbody{padding:15px;display:flex;flex-direction:column;flex:1}
+    .meta{font-size:.78rem;color:var(--accent2);margin-bottom:6px}
+    .card h3{font-size:1.05rem;margin:0 0 6px}
+    .card p{font-size:.9rem;flex:1}
+    .card .btn{width:100%;margin-top:8px}
+    .notice{font-size:.83rem;border-left:3px solid var(--accent2);padding:10px 13px;background:#13252a;border-radius:0 10px 10px 0;color:#c6d8e1}
+    .premium{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center;padding:26px;border:1px solid #6359b5;border-radius:22px;background:linear-gradient(135deg,#211e42,#141a2a 70%)}
+    .premium ul{padding-left:20px;color:var(--muted)}
+    .price{font-size:2.3rem;font-weight:900;letter-spacing:-.04em}
+    .price small{font-size:.9rem;font-weight:500;color:var(--muted);letter-spacing:0}
+    .tag{display:inline-block;padding:5px 9px;border-radius:999px;background:#37305f;color:#ded9ff;font-size:.76rem;font-weight:800}
+    footer{border-top:1px solid var(--border);margin-top:32px;padding:28px 0 38px;color:var(--muted);font-size:.88rem}
+    .footrow{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    .empty{grid-column:1/-1;border:1px dashed var(--border);padding:24px;text-align:center;border-radius:16px;color:var(--muted)}
+    @media(max-width:760px){nav{gap:12px}nav a:not(.btn){display:none}.hero{grid-template-columns:1fr;padding-top:44px}.hero-art{min-height:260px}.poster{min-height:170px}.grid{grid-template-columns:repeat(2,1fr)}.premium{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.searchbar{max-width:none}}
+    @media(max-width:430px){.wrap{width:min(100% - 22px,1120px)}.nav{min-height:60px}.brand{font-size:.9rem}.nav .btn{padding:9px 11px;font-size:.85rem}.grid{gap:10px}.cover{min-height:125px}.cardbody{padding:12px}.card p{font-size:.84rem}.hero-art{gap:9px}.poster{min-height:145px;padding:12px}section{padding:26px 0}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#home" aria-label="CineWave home"><span class="logo">▶</span><span>CINEWAVE</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#movies">Discover</a><a href="#genres">Genres</a><a href="#premium">Premium</a>
+      <a class="btn" href="#movies">Explore films</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="wrap hero" id="home">
+    <div>
+      <div class="eyebrow">Your movie. Your world.</div>
+      <h1>Find a story<br>worth watching.</h1>
+      <p>Discover films across genres, explore new creators and find authorised places to watch. Built for curious movie lovers in Kenya and beyond.</p>
+      <div class="actions"><a class="btn" href="#movies">Explore movies ↓</a><a class="btn secondary" href="#premium">See premium preview</a></div>
+      <p style="font-size:.82rem;margin-top:18px">CineWave is a discovery prototype. Watch links must be verified before launch.</p>
+    </div>
+    <div class="hero-art" aria-label="Illustrated movie collection">
+      <div class="poster p1"><strong>Beyond the Sun</strong><span>Adventure · Sample title</span></div>
+      <div class="poster p2"><strong>Blue Horizon</strong><span>Sci-fi · Sample title</span></div>
+      <div class="poster p3"><strong>Golden Hour</strong><span>Drama · Sample title</span></div>
+      <div class="poster p4"><strong>Hidden Signal</strong><span>Mystery · Sample title</span></div>
+    </div>
+  </section>
+
+  <section class="wrap" id="movies">
+    <div class="section-head">
+      <div><div class="eyebrow">The catalogue</div><h2>Discover something new</h2><p>Search the sample catalogue or filter by genre.</p></div>
+      <div class="searchbar"><input id="search" type="search" placeholder="Search films or genres…" aria-label="Search films"></div>
+    </div>
+    <div class="filters" id="genres" aria-label="Filter by genre">
+      <button class="chip" data-genre="All" aria-pressed="true">All</button>
+      <button class="chip" data-genre="Drama" aria-pressed="false">Drama</button>
+      <button class="chip" data-genre="Comedy" aria-pressed="false">Comedy</button>
+      <button class="chip" data-genre="Animation" aria-pressed="false">Animation</button>
+      <button class="chip" data-genre="Documentary" aria-pressed="false">Documentary</button>
+      <button class="chip" data-genre="Sci-Fi" aria-pressed="false">Sci-Fi</button>
+      <button class="chip" data-genre="Public domain" aria-pressed="false">Public domain</button>
+    </div>
+    <div class="grid" id="catalogue">
+      <article class="card" data-title="The General" data-genre="Comedy" data-search="silent comedy classic public domain buster keaton">
+        <div class="cover"><span>The General</span></div>
+        <div class="cardbody"><div class="meta">1926 · Silent comedy</div><h3>The General</h3><p>A classic silent comedy starring Buster Keaton. Verify the applicable public-domain status before hosting or distributing a copy.</p><a class="btn" href="https://archive.org/search?query=The%20General%201926%20Buster%20Keaton" target="_blank" rel="noopener noreferrer">Find archive copies ↗</a></div>
+      </article>
+      <article class="card" data-title="A Trip to the Moon" data-genre="Sci-Fi" data-search="fantasy science fiction silent film georges melies public domain">
+        <div class="cover c2"><span>A Trip to the Moon</span></div>
+        <div class="cardbody"><div class="meta">1902 · Fantasy / Sci-Fi</div><h3>A Trip to the Moon</h3><p>An influential early fantasy film. Check the specific restoration, soundtrack and copy rights before using it.</p><a class="btn" href="https://archive.org/search?query=A%20Trip%20to%20the%20Moon%201902" target="_blank" rel="noopener noreferrer">Find archive copies ↗</a></div>
+      </article>
+      <article class="card" data-title="Independent Film Picks" data-genre="Drama" data-search="independent drama filmmaker official free watch">
+        <div class="cover c3"><span>Independent Film Picks</span></div>
+        <div class="cardbody"><div class="meta">Curated collection</div><h3>Independent Film Picks</h3><p>A placeholder for films whose creators explicitly authorise free viewing and the intended linking or embedding.</p><a class="btn" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">Find official channels ↗</a></div>
+      </article>
+      <article class="card" data-title="Creative Commons Stories" data-genre="Documentary" data-search="creative commons documentary film license creator">
+        <div class="cover c4"><span>Creative Commons Stories</span></div>
+        <div class="cardbody"><div class="meta">Rights-check collection</div><h3>Creative Commons Stories</h3><p>Use this collection slot for films with a licence that permits your planned use, including any commercial use if applicable.</p><a class="btn" href="https://creativecommons.org/" target="_blank" rel="noopener noreferrer">Check licence basics ↗</a></div>
+      </article>
+      <article class="card" data-title="Animation Spotlight" data-genre="Animation" data-search="animation short film official creator channel">
+        <div class="cover c5"><span>Animation Spotlight</span></div>
+        <div class="cardbody"><div class="meta">Curated collection</div><h3>Animation Spotlight</h3><p>A placeholder for animation shorts supplied or authorised by their creators. Confirm the rights for each work.</p><a class="btn" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">Find official channels ↗</a></div>
+      </article>
+      <article class="card" data-title="Open Knowledge Docs" data-genre="Documentary" data-search="documentary educational public interest official free video">
+        <div class="cover c6"><span>Open Knowledge Docs</span></div>
+        <div class="cardbody"><div class="meta">Documentary collection</div><h3>Documentary Collection</h3><p>A placeholder for educational and documentary works with confirmed permissions for your platform.</p><a class="btn" href="https://archive.org/details/movies" target="_blank" rel="noopener noreferrer">Explore Internet Archive ↗</a></div>
+      </article>
+    </div>
+    <p class="notice" style="margin-top:18px">Rights reminder: catalogue entries and archive search results are discovery leads, not blanket permission to stream or redistribute a film. Verify each film's licence, territory, copy and intended use. Replace sample entries with verified titles before public launch.</p>
+  </section>
+
+  <section class="wrap" id="premium">
+    <div class="premium">
+      <div>
+        <span class="tag">PREMIUM PREVIEW · NOT FOR SALE YET</span>
+        <h2 style="margin-top:14px">More discovery. Less hassle.</h2>
+        <p>Optional extras that could support CineWave after you validate demand.</p>
+        <ul>
+          <li>Ad-free browsing (if ads are introduced)</li>
+          <li>Advanced watchlists and personal collections</li>
+          <li>Personalised recommendations</li>
+          <li>Member updates and early access to licensed collections</li>
+        </ul>
+        <p style="font-size:.84rem">Premium features do not currently take payments or unlock protected videos.</p>
+      </div>
+      <div>
+        <div class="price">KSh 0 <small>/ prototype</small></div>
+        <p>Free to explore while we test the idea.</p>
+        <a class="btn" href="mailto:hello@cinewave.example?subject=CineWave%20early%20access">Register interest by email</a>
+        <p style="font-size:.78rem;margin-top:12px">Demo address only. Replace it with a real business email before publishing.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="about">
+    <div class="section-head"><div><div class="eyebrow">Our promise</div><h2>Built around discovery</h2><p>CineWave aims to help viewers find films and creators find audiences. We link to authorised viewing sources and respect rights holders.</p></div></div>
+    <p class="notice">This prototype has no user accounts, video hosting, M-Pesa integration, subscription billing or secure paywall. Do not collect payments until these are implemented and tested securely.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footrow"><div><strong style="color:var(--text)">CINEWAVE</strong><br>Your movie. Your world.</div><div>© <span id="year"></span> CineWave prototype · Kenya<br><a class="quiet" href="#about">About</a> · <a class="quiet" href="#premium">Premium preview</a></div></div>
+</footer>
+<script>
+  const search = document.getElementById('search');
+  const cards = [...document.querySelectorAll('.card')];
+  const chips = [...document.querySelectorAll('.chip')];
+  let activeGenre = 'All';
+  function updateCards(){
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach(card => {
+      const haystack = (card.dataset.title + ' ' + card.dataset.genre + ' ' + card.dataset.search).toLowerCase();
+      const genreMatch = activeGenre === 'All' || card.dataset.genre === activeGenre;
+      const searchMatch = !q || haystack.includes(q);
+      card.hidden = !(genreMatch && searchMatch);
+      if (!card.hidden) shown++;
+    });
+    let empty = document.getElementById('empty-result');
+    if (!shown && !empty) {
+      empty = document.createElement('div'); empty.id = 'empty-result'; empty.className = 'empty';
+      empty.textContent = 'No matching titles. Try another search or genre.';
+      document.getElementById('catalogue').appendChild(empty);
+    } else if (shown && empty) empty.remove();
+  }
+  search.addEventListener('input', updateCards);
+  chips.forEach(chip => chip.addEventListener('click', () => {
+    activeGenre = chip.dataset.genre;
+    chips.forEach(c => c.setAttribute('aria-pressed', String(c === chip)));
+    updateCards();
+  }));
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
